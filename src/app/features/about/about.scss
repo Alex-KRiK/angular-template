@@ -1,0 +1,10 @@
+@use 'styles/variables' as *;
+@use 'styles/mixins' as *;
+
+.about-container {
+  padding: $font-size-xl;
+
+  &__actions {
+    margin-top: $font-size-md;
+  }
+}

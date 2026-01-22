@@ -1,0 +1,212 @@
+@use 'variables' as v;
+
+@mixin flex {
+  display: flex;
+}
+
+@mixin align-center {
+  align-items: center;
+}
+
+@mixin justify-center {
+  justify-content: center;
+}
+
+@mixin justify-end {
+  justify-content: flex-end;
+}
+
+@mixin justify-between {
+  justify-content: space-between;
+}
+
+@mixin direction-column {
+  flex-direction: column;
+}
+
+@mixin flex-align-center {
+  @include flex;
+  @include align-center;
+}
+
+@mixin flex-justify-center {
+  @include flex;
+  @include justify-center;
+}
+
+@mixin flex-justify-end {
+  @include flex;
+  @include justify-end;
+}
+
+@mixin flex-justify-between {
+  @include flex;
+  @include justify-between;
+}
+
+@mixin flex-column {
+  @include flex;
+  @include direction-column;
+}
+
+@mixin flex-center {
+  @include flex;
+  @include align-center;
+  @include justify-center;
+}
+
+/*
+  Mixin: media($screen)
+
+  A semantic and scalable mixin for handling media queries using abstract breakpoint names.
+  Works with rem-based breakpoints (e.g. $screen-md, $screen-lg), enabling dynamic and accessible
+  responsive layouts.
+
+  Usage example:
+  @include media(md) {
+    // Styles for devices with a maximum width of $screen-md (e.g. most smartphones)
+  }
+
+  Supported breakpoints:
+  - sm: Small devices (≤ $screen-sm)
+  - md: Medium devices (≤ $screen-md)
+  - lg: Large devices (≤ $screen-lg)
+  - xl: Extra large devices (≤ $screen-xl)
+  - 2xl: Ultra-large devices (≤ $screen-2xl)
+  - beyond-2xl: Ultra-wide devices (≥ $screen-2xl + 1px)
+
+  Additional mixins:
+  - media-height($max-height)  → For height-specific queries
+  - media-size($max-width, $max-height) → For combined width and height queries
+*/
+$media-gap: 0.0625rem; // 1px in rem units
+
+@mixin media($screen) {
+  @if $screen == sm {
+    @media (max-width: v.$screen-sm) {
+      @content;
+    }
+  } @else if $screen == md {
+    @media (max-width: v.$screen-md) {
+      @content;
+    }
+  } @else if $screen == lg {
+    @media (max-width: v.$screen-lg) {
+      @content;
+    }
+  } @else if $screen == xl {
+    @media (max-width: v.$screen-xl) {
+      @content;
+    }
+  } @else if $screen == 2xl {
+    @media (max-width: v.$screen-2xl) {
+      @content;
+    }
+  } @else if $screen == beyond-2xl {
+    @media (min-width: v.$screen-2xl + $media-gap) {
+      @content;
+    }
+  }
+}
+
+/*
+  Mixin: media-height($max-height)
+
+  Handles height-specific media queries.
+  Example usage:
+  @include media-height(600px) {
+    // Styles for short screens
+  }
+*/
+@mixin media-height($max-height) {
+  @media (max-height: $max-height) {
+    @content;
+  }
+}
+
+/*
+  Mixin: media-size($max-width, $max-height)
+
+  Handles combined media queries for width and height.
+  Example usage:
+  @include media-size(480px, 700px) {
+    // Styles for screens with limited width and height
+  }
+*/
+@mixin media-size($max-width, $max-height) {
+  @media (max-width: $max-width) and (max-height: $max-height) {
+    @content;
+  }
+}
+
+/*
+  Mixin for applying styles inside Angular components using ::ng-deep.
+
+  This mixin allows the application of styles that need to penetrate Angular's ViewEncapsulation boundaries
+  by leveraging the ::ng-deep pseudo-class. It enables the styling of child components or elements encapsulated
+  within Angular's component structure.
+
+  @content - The content block to be included inside the ::ng-deep scope.
+             This is a placeholder for custom styles passed to the mixin.
+
+  Example usage:
+  scss
+  .custom-component {
+    @include ng-deep {
+      .child-element {
+        color: red;
+      }
+    }
+  }
+*/
+@mixin ng-deep {
+  :host ::ng-deep {
+    @content;
+  }
+}
+
+/*
+  Mixin for applying common text styles.
+
+  This mixin provides commonly used text styles, including font family, font size, line height,
+  letter spacing, and font style. It ensures consistency in text formatting throughout the application.
+
+  @param {None} - This mixin doesn't take any parameters. It applies predefined values for text styling.
+
+  Example usage:
+  scss
+  .text {
+    @include base-text;
+  }
+*/
+@mixin base-text {
+  font-family: v.$ibm-plex;
+  font-size: v.$font-size-sm; // 14px
+  font-style: normal;
+  line-height: 20px;
+  font-weight: 400;
+  letter-spacing: 0.1px;
+}
+
+/*
+  Mixin for truncating single-line text with ellipsis.
+
+  This mixin is used to apply an ellipsis (`...`) to text content that overflows its container.
+  It ensures the text is displayed on a single line, and any overflow is replaced with ellipsis.
+
+  Key Properties:
+  - `overflow: hidden`: Prevents the overflowing content from being displayed outside the container.
+  - `white-space: nowrap`: Ensures the text remains on a single line and does not wrap.
+  - `text-overflow: ellipsis`: Replaces overflowing text with an ellipsis (`...`).
+
+  Example usage:
+  scss
+  .single-line-text {
+    @include text-ellipsis;
+  }
+*/
+@mixin text-ellipsis {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
