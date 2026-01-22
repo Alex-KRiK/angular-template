@@ -11,13 +11,14 @@
 3. [Prerequisites](#-prerequisites)
 4. [ZIP → fresh repo workflow](#-the-only-supported-workflow-zip--fresh-repo)
 5. [What to rename](#-what-to-rename-checklist)
-6. [Folder structure rules](#-folder-structure-rules)
-7. [Text convention (StaticTextHelper)](#-text--labels-convention-statictexthelper)
-8. [DayJS usage](#-dayjs-usage)
-9. [Code quality workflow](#-code-quality-workflow)
-10. [ESLint HTML attribute ordering](#-notes-about-html-attribute-ordering-eslint)
-11. [Adding a new feature](#-adding-a-new-feature-example)
-12. [Additional Resources](#-additional-resources)
+6. [What to delete / clean up](#-what-to-delete--clean-up-before-first-push)
+7. [Folder structure rules](#-folder-structure-rules)
+8. [Text convention (StaticTextHelper)](#-text--labels-convention-statictexthelper)
+9. [DayJS usage](#-dayjs-usage)
+10. [Code quality workflow](#-code-quality-workflow)
+11. [ESLint HTML attribute ordering](#-notes-about-html-attribute-ordering-eslint)
+12. [Adding a new feature](#-adding-a-new-feature-example)
+13. [Additional Resources](#-additional-resources)
 
 ---
 
@@ -75,16 +76,6 @@ npm start
 
 App runs on: http://localhost:4200
 
-### 4) Initialize git and push to the client repo
-
-```
-git init
-git add .
-git commit -m "Initial commit"
-git remote add origin <CLIENT_REPO_URL>
-git push -u origin main
-```
-
 ---
 
 ## ✍️ What to rename (checklist)
@@ -103,6 +94,58 @@ git push -u origin main
 
 - projects: { "angular-template": → project name keys change to your project name
 - defaultProject (if present) → keep consistent with the project name
+
+---
+
+## 🧹 What to delete / clean up (before first push)
+
+**Before you initialize git and push to the client repo, remove everything that exists only to demonstrate the template.**
+
+This template contains demo pages (`home`, `about`) and helper patterns to show the recommended architecture.
+
+> ✅ **Note**: If demo pages are useful for your team, you can keep them temporarily and use them as a reference while building real features.
+> Just make sure they don’t end up in the final client repo if the client expects a clean project.
+
+### 1) Demo features (optional to keep):
+
+This template ships with demo features to illustrate the recommended architecture (standalone components + routing + shared helpers).
+
+**You may keep them as a working reference:**
+
+- `src/app/features/home/` (demo feature page)
+- `src/app/features/about/` (second demo feature page)
+- `src/app/app.routes.ts` routes for `/home` and `/about`
+- `StaticTextHelper` pattern (if your project follows “all UI text in one place” approach)
+
+**Why this can be useful:**
+
+- it’s the fastest way to start building real features by copying the structure and adapting it
+- it shows a ready-to-use example of routing + standalone feature structure
+- it’s a safe playground to test validate tooling (Material, DayJS, styles, ESLint/Prettier rules)
+
+### 2)❗Must remove before pushing to a client repo
+
+**These are template-only artifacts and should NOT be pushed into a client/internal repository:**
+
+- `docs/TEMPLATE_GUIDE.md`
+
+### 3) ✅ Verify, initialize git and push to the client repo
+
+**Run verification locally:**
+
+```bash
+npm run verify
+```
+
+If everything is green, initialize git and push:
+
+```
+git init
+git add .
+git commit -m "Initial commit"
+git remote add origin <CLIENT_REPO_URL>
+git push -u origin main
+```
 
 ---
 
